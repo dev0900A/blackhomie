@@ -47,7 +47,7 @@ const getInviter = async (req, res) => {
 
 const addInviter = async (req, res) => {
   try {
-    const { inviter } = req.body;
+    const inviter = req.body;
     const result = await getUserInviteLink(inviter);
     if (result.rows.length === 0) {
       const inviteCode = randomstring.generate(12);
@@ -57,6 +57,7 @@ const addInviter = async (req, res) => {
       res.status(200).json({ message: 'Inviter already exists' });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({message:`Server error: ${error.detail}`});
   }
 };
