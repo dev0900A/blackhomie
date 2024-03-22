@@ -72,7 +72,7 @@ const addInvitee = async (req, res) => {
       const newInviteCode = randomstring.generate(12);
       await insertUserInviteLink(invitee, newInviteCode);
       await insertUserInviteLinkRecords(inviter_result.rows[0].inviter, invitee, inviterCode, ip);
-      const integral = inviter_result.rows[0].integral + defaultIntegral;
+      const integral = Number(inviter_result.rows[0].integral) + Number(defaultIntegral);
       await updateUserInviteLink(inviter_result.rows[0].inviter, integral);
       res.status(200).json({ code: 0, message: 'Invitee added successfully' });
     } else {
