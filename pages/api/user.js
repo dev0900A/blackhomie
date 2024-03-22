@@ -52,7 +52,7 @@ const addInviter = async (req, res) => {
     if (result.rows.length === 0) {
       const inviteCode = randomstring.generate(12);
       await insertUserInviteLink(inviter, inviteCode);
-      res.status(200).json({ message: 'Inviter added successfully' });
+      res.status(200).json({ inviteCode: inviteCode, message: 'Inviter added successfully' });
     } else {
       res.status(200).json({ message: 'Inviter already exists' });
     }
