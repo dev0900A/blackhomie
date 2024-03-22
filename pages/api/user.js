@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({message: 'Server error'});
+        res.status(500).json({code: 500, message: 'Server error'});
     }
 }
 
@@ -52,12 +52,12 @@ const addInviter = async (req, res) => {
     if (result.rows.length === 0) {
       const inviteCode = randomstring.generate(12);
       await insertUserInviteLink(inviter, inviteCode);
-      res.status(200).json({ inviteCode: inviteCode, message: 'Inviter added successfully' });
+      res.status(200).json({ code: 0, inviteCode: inviteCode, message: 'Inviter added successfully' });
     } else {
-      res.status(200).json({ message: 'Inviter already exists' });
+      res.status(200).json({ code: -1, message: 'Inviter already exists' });
     }
   } catch (error) {
-    res.status(500).json({message:`Server error: ${error.detail}`});
+    res.status(500).json({code: 500, message:`Server error: ${error.detail}`});
   }
 };
 
@@ -74,12 +74,12 @@ const addInvitee = async (req, res) => {
       await insertUserInviteLinkRecords(inviter_result.rows[0].inviter, invitee, inviterCode, ip);
       const integral = inviter_result.rows[0].integral + defaultIntegral;
       await updateUserInviteLink(inviter, integral);
-      res.status(200).json({ message: 'Invitee added successfully' });
+      res.status(200).json({ code: 0, message: 'Invitee added successfully' });
     } else {
-      res.status(200).json({ message: 'Invitee could not be added' });
+      res.status(200).json({ code: -1, message: 'Invitee could not be added' });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: `Server error: ${error.detail}`});
+    res.status(500).json({ code: 500, message: `Server error: ${error.detail}`});
   }
 };
